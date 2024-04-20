@@ -15,10 +15,35 @@
   <body>
     <div class="elements-container">
       <elements-api
+        id="elements"
         apiDescriptionUrl="{{ url }}"
         router="hash"
         layout="stacked"
       />
     </div>
+    <script>
+      const $elements = document.querySelector('#elements');
+
+      function throttle(fn, delay) {
+        let lastCall = 0;
+        return function (...args) {
+          const now = (new Date).getTime();
+          if (now - lastCall < delay) {
+            return;
+          }
+          lastCall = now;
+          return fn(...args);
+        }
+      }
+
+      function updateLayout() {
+        $elements.layout = window.innerWidth >= 1200 ? 'sidebar' : 'stacked';
+      }
+
+      let trottledUpdateLayout = throttle(updateLayout, 250);
+
+      window.addEventListener('resize', trottledUpdateLayout);
+      updateLayout();
+    </script>
   </body>
 </html>
