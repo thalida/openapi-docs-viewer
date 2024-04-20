@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://unpkg.com/@stoplight/elements/web-components.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/@stoplight/elements/styles.min.css">
+    <style>
+      [data-theme='dark'] .elements-container :is(.token.string, .token.function, .token.property) {
+        color: var(--ifm-color-primary) !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="elements-container">
+      <elements-api
+        apiDescriptionUrl="{{url}}"
+        router="hash"
+        layout="stacked"
+      />
+    </div>
+  </body>
+</html>

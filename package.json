@@ -4,18 +4,46 @@
   "description": "",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.88.0"
+    "vscode": "^1.87.2"
   },
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+	"activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "openapi-docs-viewer",
+          "title": "OpenAPI Docs Viewer",
+          "icon": "$(file-code)"
+        }
+      ]
+    },
+    "views": {
+      "openapi-docs-viewer": [
+        {
+          "id": "openapi-docs-viewer.webview",
+          "name": "OpenAPI Docs Viewer",
+          "type": "webview"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "openapi-docs-viewer.configiure",
+          "when": "view ==openapi-docs-viewer.webview",
+          "group": "navigation@1"
+        }
+      ]
+    },
     "commands": [
       {
-        "command": "openapi-docs-viewer.helloWorld",
-        "title": "Hello World"
+        "command": "openapi-docs-viewer.configiure",
+        "title": "Configure",
+        "icon": "$(gear)"
       }
     ]
   },
@@ -28,14 +56,17 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.88.0",
     "@types/mocha": "^10.0.6",
     "@types/node": "18.x",
+    "@types/vscode": "^1.88.0",
     "@typescript-eslint/eslint-plugin": "^7.4.0",
     "@typescript-eslint/parser": "^7.4.0",
-    "eslint": "^8.57.0",
-    "typescript": "^5.3.3",
     "@vscode/test-cli": "^0.0.8",
-    "@vscode/test-electron": "^2.3.9"
+    "@vscode/test-electron": "^2.3.9",
+    "eslint": "^8.57.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "liquidjs": "^10.11.0"
   }
 }
