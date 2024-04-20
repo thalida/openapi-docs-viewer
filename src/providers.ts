@@ -73,10 +73,10 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
       enableScripts: true
     };
     this.webviewView = webviewView;
-    this.renderWebviewView();
+    this.renderWebview();
   }
 
-  private async renderWebviewView() {
+  async renderWebview() {
     if (!this.webviewView) {
       return;
     }
@@ -94,11 +94,15 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
     const templatePath = vscode.Uri.joinPath(this.extensionContext.extensionUri, "src", "templates", selectedFramework.template);
     const templateStr = fs.readFileSync(templatePath.fsPath, "utf-8");
 
+    const darkThemes = [ vscode.ColorThemeKind.Dark, vscode.ColorThemeKind.HighContrast ];
+    const isDarkTheme = darkThemes.includes(vscode.window.activeColorTheme.kind);
+
     const engine = new Liquid();
     return await engine.parseAndRender(
       templateStr,
       {
         url: this.schemaUrl,
+        theme: isDarkTheme ? "dark" : "light"
       }
     );
   }
@@ -132,7 +136,7 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
       this.selectedDocFramework = this.supportedDocFrameworks.find(framework => framework.key === result.key);
     }
 
-    this.renderWebviewView();
+    this.renderWebview();
   }
 
   private async showPickSchemaUrl() {
@@ -159,7 +163,7 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
       this.schemaUrl = result;
     }
 
-    this.renderWebviewView();
+    this.renderWebview();
   }
 }
 

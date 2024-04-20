@@ -15,6 +15,10 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand("openapi-docs-viewer.configiure", async () => {
 		docsViewerProvider.showQuickPick();
 	}));
+
+	context.subscriptions.push(vscode.window.onDidChangeActiveColorTheme(() => {
+		docsViewerProvider.renderWebview();
+	}));
 }
 
 export function deactivate() {}
