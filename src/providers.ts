@@ -41,6 +41,13 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
       "template": "swagger.html",
     },
     {
+      "key": "redoc",
+      "label": "ReDoc",
+      "url": "https://github.com/Redocly/redoc",
+      "description": "OpenAPI/Swagger-generated API Reference Documentation",
+      "template": "redoc.html",
+    },
+    {
       "key": "rapidoc",
       "label": "RapiDoc",
       "url": "https://github.com/rapi-doc/RapiDoc",
