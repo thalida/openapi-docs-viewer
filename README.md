@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="media/logos/logo.svg" alt="OpenAPI Docs Viewer Logo" width="100"/>
+  <img src="media/logos/logo.png" alt="OpenAPI Docs Viewer Logo" width="100"/>
   <h1> VSCode Extension: OpenAPI Docs Viewer</h1>
   <strong>Display interactive OpenAPI schema documentation in VSCode</strong>
 </div>
