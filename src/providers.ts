@@ -149,14 +149,14 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
       {
         key: "schemaRenderer",
         label: "Select Schema Renderer",
-        detail: "Select an OpenAPI schema renderer",
+        detail: "Updates Workspace Setting: openapi-docs-viewer.defaultRenderer",
         description: `Currently: ${this.selectedRenderer?.label || this.defaultRenderer.label}`,
         action: this.showPickRenderer.bind(this)
       },
       {
         key: "schemaTheme",
         label: "Select Theme",
-        detail: "Select the theme to render: system, light, or dark",
+        detail: "Updates Workspace Setting: openapi-docs-viewer.defaultTheme",
         description: `Currently: ${this.selectedTheme}`,
         action: this.showPickTheme.bind(this)
       }
