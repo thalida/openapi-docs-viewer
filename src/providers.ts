@@ -133,7 +133,8 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
     }
 
     const selectedRenderer = overrides?.renderer || this.selectedRenderer;
-    const templatePath = vscode.Uri.joinPath(this.extensionContext.extensionUri, "src", "templates", selectedRenderer.template);
+
+    const templatePath = vscode.Uri.joinPath(this.extensionContext.extensionUri, "templates", selectedRenderer.template);
     const templateStr = fs.readFileSync(templatePath.fsPath, "utf-8");
 
     const selectedTheme = overrides?.theme || this.selectedTheme;
