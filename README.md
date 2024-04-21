@@ -1,6 +1,6 @@
 <div align="center">
   <h1> VSCode Extension: OpenAPI Docs Viewer</h1>
-  <p>Display interactive OpenAPI schema documentation in VSCode</p>
+  <strong>Display interactive OpenAPI schema documentation in VSCode</strong>
 </div>
 
 <br /><br />
@@ -9,12 +9,15 @@
 
 ## Features
 
-Enter any OpenAPI schema URL and view the documentation in a VSCode tab.
+Enter any OpenAPI schema URL and view the documentation in a VSCode tab. You can customize the schema renderer and theme.
 
 ### Supported Renderers
 
 <details>
-  <summary>Elements (default)</summary>
+  <summary><strong>Elements (Default)</strong></summary>
+
+  Build beautiful, interactive API Docs with embeddable React or Web Components, powered by OpenAPI and Markdown.
+  https://github.com/stoplightio/elements
 
   **Preview**
   <table>
@@ -36,7 +39,10 @@ Enter any OpenAPI schema URL and view the documentation in a VSCode tab.
   </table>
 </details>
 <details>
-  <summary>Rapidoc</summary>
+  <summary><strong>RapiDoc</strong></summary>
+
+  Custom Element for Open-API spec viewing  
+  https://github.com/rapi-doc/RapiDoc
 
   **Preview**
   <table>
@@ -58,7 +64,10 @@ Enter any OpenAPI schema URL and view the documentation in a VSCode tab.
   </table>
 </details>
 <details>
-  <summary>Redoc</summary>
+  <summary><strong>ReDoc</strong></summary>
+
+  OpenAPI/Swagger-generated API Reference Documentation  
+  https://github.com/Redocly/redoc
 
   **Preview**
   <table>
@@ -80,7 +89,10 @@ Enter any OpenAPI schema URL and view the documentation in a VSCode tab.
   </table>
 </details>
 <details>
-  <summary>Swagger</summary>
+  <summary><strong>Swagger</strong></summary>
+
+  Swagger UI is a collection of HTML, JavaScript, and CSS assets that dynamically generate beautiful documentation from a Swagger-compliant API.  
+  https://github.com/swagger-api/swagger-ui
 
   **Preview**
   <table>
@@ -102,9 +114,12 @@ Enter any OpenAPI schema URL and view the documentation in a VSCode tab.
   </table>
 </details>
 
-### Dark Mode Support
+### Themes
 
-By default, the extension will use the system theme. System theme adopts the color scheme of the VSCode theme. If you want to override the system theme, you can set the `openapi-docs-viewer.defaultTheme` setting to `dark` or `light`.
+**Supported Themes**: `system`, `light`, `dark`  
+**Default Theme**: `system`
+
+By default, the extension will use the system theme. System theme adopts the color scheme of the current VSCode theme. If you want to override the system theme, you can set the `openapi-docs-viewer.defaultTheme` setting to `dark` or `light`.
 
 ## Extension Settings
 
