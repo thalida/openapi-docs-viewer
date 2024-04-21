@@ -10,12 +10,19 @@ interface IRender {
   template: string;
 }
 
+type IQuickPickItem = IQuickPickOption | IQuickPickSeparator;
+
 interface IQuickPickOption {
   key: string;
   label: string;
   description: string;
   detail: string;
   action: () => Promise<void>;
+}
+
+interface IQuickPickSeparator {
+  label: string;
+  kind: vscode.QuickPickItemKind.Separator;
 }
 
 
@@ -138,13 +145,17 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
   }
 
   async showQuickPick() {
-    const options: IQuickPickOption[] = [
+    const items: IQuickPickItem[] = [
       {
         key: "schemaUrl",
         label: "Set Schema URL",
-        detail: "Set the URL of the OpenAPI schema",
+        detail: "URL of the OpenAPI schema to render",
         description: `Currently: ${this.schemaUrl}`,
         action: this.showPickSchemaUrl.bind(this)
+      },
+      {
+        label: "Extension Settings",
+        kind: vscode.QuickPickItemKind.Separator,
       },
       {
         key: "schemaRenderer",
@@ -163,7 +174,7 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
     ];
 		const quickPick = vscode.window.createQuickPick();
     quickPick.title = "OpenAPI Docs Viewer Configuration";
-		quickPick.items = options;
+		quickPick.items = items;
 		quickPick.onDidChangeSelection(selection => {
 			if (selection[0]) {
 				(selection[0] as IQuickPickOption)
@@ -300,5 +311,6 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
 class SettingsItem implements vscode.QuickPickItem {
   picked?: boolean | undefined;
   iconPath?: vscode.Uri | { light: vscode.Uri; dark: vscode.Uri; } | vscode.ThemeIcon | undefined;
+  kind?: vscode.QuickPickItemKind | undefined;
   constructor(public readonly key: string, public readonly label: string, public readonly description: string, public readonly detail: string) {}
 }
