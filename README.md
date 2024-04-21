@@ -19,10 +19,17 @@ Enter any OpenAPI schema URL and view the documentation in a VSCode tab.
   **Preview**
   <table>
     <tr>
+      <td><strong>Theme</strong></td>
+      <td><strong>Layout: Mobile</strong></td>
+      <td><strong>Layout: Desktop</storng></td>
+    </tr>
+    <tr>
+      <td>Dark</td>
       <td><img src="docs/images/theme-elements-dark-small.png" alt="Elements Dark Theme: Small" width="300"/></td>
       <td><img src="docs/images/theme-elements-dark-large.png" alt="Elements Dark Theme: Large" width="600"/></td>
     </tr>
     <tr>
+      <td>Light</td>
       <td><img src="docs/images/theme-elements-light-small.png" alt="Elements Light Theme: Small" width="300"/></td>
       <td><img src="docs/images/theme-elements-light-large.png" alt="Elements Light Theme: Large" width="600"/></td>
     </tr>
