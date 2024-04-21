@@ -14,14 +14,14 @@
     "type": "git",
     "url": "https://github.com/thalida/openapi-docs-viewer"
   },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "engines": {
     "vscode": "^1.87.2"
   },
   "categories": [
     "Other"
   ],
-	"activationEvents": [],
+  "activationEvents": [],
   "main": "./out/extension.js",
   "icon": "media/logos/logo-128x128.png",
   "galleryBanner": {
@@ -36,7 +36,11 @@
         "openapi-docs-viewer.defaultTheme": {
           "type": "string",
           "default": "system",
-          "enum": ["system", "light", "dark"],
+          "enum": [
+            "system",
+            "light",
+            "dark"
+          ],
           "enumItemLabels": [
             "System",
             "Light",
@@ -52,7 +56,12 @@
         "openapi-docs-viewer.defaultRenderer": {
           "type": "string",
           "default": "elements",
-          "enum": ["elements", "rapidoc", "redoc", "swagger"],
+          "enum": [
+            "elements",
+            "rapidoc",
+            "redoc",
+            "swagger"
+          ],
           "enumItemLabels": [
             "Elements",
             "RapiDoc",
@@ -64,7 +73,11 @@
         "openapi-docs-viewer.defaultLayout": {
           "type": "string",
           "default": "responsive",
-          "enum": ["responsive", "desktop", "mobile"],
+          "enum": [
+            "responsive",
+            "desktop",
+            "mobile"
+          ],
           "enumItemLabels": [
             "Responsive",
             "Desktop",
