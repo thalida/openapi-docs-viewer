@@ -19,6 +19,13 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.window.onDidChangeActiveColorTheme(() => {
 		docsViewerProvider.renderWebview();
 	}));
+
+	context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(e => {
+		if (e.affectsConfiguration("openapi-docs-viewer.defaultRenderer") || e.affectsConfiguration("openapi-docs-viewer.defaultTheme")) {
+			docsViewerProvider.restoreState();
+			docsViewerProvider.renderWebview();
+		}
+	}));
 }
 
 export function deactivate() {}

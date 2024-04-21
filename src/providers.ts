@@ -56,45 +56,38 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
     },
   ];
   private defaultRenderer: IRender = this.supportedRenderers.find(renderer => renderer.key === "elements")!;
-  private selectedRenderer: IRender | undefined = this.defaultRenderer;
-
-  private readonly defaultSchemaUrl = "https://petstore.swagger.io/v2/swagger.json";
-  private schemaUrl = this.defaultSchemaUrl;
+  private selectedRenderer: IRender = this.defaultRenderer;
 
   private defaultTheme: "system" | "light" | "dark" = "system";
   private selectedTheme: "system" | "light" | "dark" = this.defaultTheme;
 
+  private readonly defaultSchemaUrl = "https://petstore.swagger.io/v2/swagger.json";
+  private schemaUrl = this.defaultSchemaUrl;
+
   constructor(context: vscode.ExtensionContext) {
     this.extensionContext = context;
     this.memento = context.workspaceState;
-
-    const configuration = vscode.workspace.getConfiguration();
-
-    const configuredDefaultRenderer = configuration.get<string>("openapi-docs-viewer.defaultRenderer");
-    if (configuredDefaultRenderer) {
-      this.defaultRenderer = this.supportedRenderers.find(renderer => renderer.key === configuredDefaultRenderer) || this.defaultRenderer;
-    }
-
-    const configuredDefaultTheme = configuration.get<string>("openapi-docs-viewer.defaultTheme");
-    if (configuredDefaultTheme) {
-      this.defaultTheme = configuredDefaultTheme as "system" | "light" | "dark";
-    }
-
-
     this.restoreState();
   }
 
   restoreState() {
-    this.schemaUrl = this.memento.get("schemaUrl", this.defaultSchemaUrl);
-    const selectedRendererKey = this.memento.get("selectedRendererKey", this.defaultRenderer.key);
-    this.selectedRenderer = this.supportedRenderers.find(renderer => renderer.key === selectedRendererKey);
-    this.selectedTheme = this.memento.get("selectedTheme", this.defaultTheme);
-  }
+    const configuration = vscode.workspace.getConfiguration();
 
-  saveState() {
-    this.memento.update("schemaUrl", this.schemaUrl);
-    this.memento.update("selectedRendererKey", this.selectedRenderer?.key);
-    this.memento.update("selectedTheme", this.selectedTheme);
+    const configuredDefaultRenderer = configuration.get<string>("openapi-docs-viewer.defaultRenderer");
+    if (configuredDefaultRenderer) {
+      this.selectedRenderer = this.supportedRenderers.find(renderer => renderer.key === configuredDefaultRenderer) || this.defaultRenderer;
+    } else {
+      this.selectedRenderer = this.defaultRenderer;
+    }
+
+    const configuredDefaultTheme = configuration.get<string>("openapi-docs-viewer.defaultTheme");
+    if (configuredDefaultTheme) {
+      this.selectedTheme = configuredDefaultTheme as "system" | "light" | "dark" || this.defaultTheme;
+    } else {
+      this.selectedTheme = this.defaultTheme;
+    }
+
+    this.schemaUrl = this.memento.get("schemaUrl", this.defaultSchemaUrl);
   }
 
   resolveWebviewView(
@@ -109,16 +102,12 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
     this.renderWebview();
   }
 
-  async renderWebview(saveState = true, overrides?: { renderer?: IRender, theme?: "system" | "light" | "dark" }) {
+  async renderWebview(overrides?: { renderer?: IRender, theme?: "system" | "light" | "dark" }) {
     if (!this.webviewView) {
       return;
     }
 
     this.webviewView.webview.html = await this.getWebviewHTML(overrides);
-
-    if (saveState) {
-      this.saveState();
-    }
   }
 
   private async getWebviewHTML(overrides?: { renderer?: IRender, theme?: "system" | "light" | "dark" }) {
@@ -126,11 +115,11 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
       return "";
     }
 
-    const selectedRenderer = overrides?.renderer || this.selectedRenderer || this.defaultRenderer;
+    const selectedRenderer = overrides?.renderer || this.selectedRenderer;
     const templatePath = vscode.Uri.joinPath(this.extensionContext.extensionUri, "src", "templates", selectedRenderer.template);
     const templateStr = fs.readFileSync(templatePath.fsPath, "utf-8");
 
-    const selectedTheme = overrides?.theme || this.selectedTheme || this.defaultTheme;
+    const selectedTheme = overrides?.theme || this.selectedTheme;
     const darkThemes = [ vscode.ColorThemeKind.Dark, vscode.ColorThemeKind.HighContrast ];
     const isDarkTheme = (
       selectedTheme === "dark" ||
@@ -186,6 +175,33 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
 		quickPick.show();
   }
 
+  private async showPickSchemaUrl() {
+    const result = await vscode.window.showInputBox({
+      value: this.schemaUrl,
+      prompt: "Enter the URL of the OpenAPI schema",
+      placeHolder: "https://example.com/openapi.json",
+      validateInput: text => {
+        try {
+          const url = new URL(text);
+
+          if (url.protocol !== "http:" && url.protocol !== "https:") {
+            return "Invalid protocol";
+          }
+
+          return null;
+        } catch (error) {
+          return "Invalid URL";
+        }
+      }
+    });
+
+    if (result) {
+      this.schemaUrl = result;
+    }
+
+    this.renderWebview();
+  }
+
   private async showPickRenderer() {
     const self = this;
     let items = this.supportedRenderers.map((renderer) => {
@@ -210,41 +226,15 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
       placeHolder: "Select an OpenAPI schema renderer (Up/Down to preview, Enter to select)",
       onDidSelectItem(item) {
         const renderer = self.supportedRenderers.find(f => f.key === (item as SettingsItem).key);
-        self.renderWebview(false, {
+        self.renderWebview({
           renderer: renderer,
         });
       }
     });
 
     if (result) {
-      this.selectedRenderer = this.supportedRenderers.find(renderer => renderer.key === result.key);
-    }
-
-    this.renderWebview();
-  }
-
-  private async showPickSchemaUrl() {
-    const result = await vscode.window.showInputBox({
-      value: this.schemaUrl,
-      prompt: "Enter the URL of the OpenAPI schema",
-      placeHolder: "https://example.com/openapi.json",
-      validateInput: text => {
-        try {
-          const url = new URL(text);
-
-          if (url.protocol !== "http:" && url.protocol !== "https:") {
-            return "Invalid protocol";
-          }
-
-          return null;
-        } catch (error) {
-          return "Invalid URL";
-        }
-      }
-    });
-
-    if (result) {
-      this.schemaUrl = result;
+      this.selectedRenderer = this.supportedRenderers.find(renderer => renderer.key === result.key) || this.defaultRenderer;
+      await vscode.workspace.getConfiguration().update("openapi-docs-viewer.defaultRenderer", this.selectedRenderer.key, vscode.ConfigurationTarget.Workspace);
     }
 
     this.renderWebview();
@@ -292,7 +282,7 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
       title: "Select Theme",
       placeHolder: "Select a theme (Up/Down to preview, Enter to select)",
       onDidSelectItem(item) {
-        self.renderWebview(false, {
+        self.renderWebview({
           theme: (item as SettingsItem).key as "system" | "light" | "dark",
         });
       }
@@ -300,6 +290,7 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
 
     if (result) {
       this.selectedTheme = result.key as "system" | "light" | "dark";
+      await vscode.workspace.getConfiguration().update("openapi-docs-viewer.defaultTheme", this.selectedTheme, vscode.ConfigurationTarget.Workspace);
     }
 
     this.renderWebview();
