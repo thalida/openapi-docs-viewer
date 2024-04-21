@@ -51,6 +51,17 @@
             "Swagger"
           ],
           "description": "Set the default schema renderer for the OpenAPI Docs Viewer"
+        },
+        "openapi-docs-viewer.defaultLayout": {
+          "type": "string",
+          "default": "responsive",
+          "enum": ["responsive", "desktop", "mobile"],
+          "enumItemLabels": [
+            "Responsive",
+            "Desktop",
+            "Mobile"
+          ],
+          "description": "Set the default layout for the OpenAPI Docs Viewer"
         }
       }
     },

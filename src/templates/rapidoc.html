@@ -15,6 +15,13 @@
       show-header="false"
     />
     <script>
+      const isResponsive = "{{ layout }}" === "responsive";
+      const isDesktop = "{{ layout }}" === "desktop";
+      const isMobile = "{{ layout }}" === "mobile";
+
+      const desktopLayout = "focused";
+      const mobileLayout = "view";
+
       const $rapidoc = document.querySelector('#rapi-doc');
 
       function throttle(fn, delay) {
@@ -30,13 +37,19 @@
       }
 
       function updateLayout() {
-        $rapidoc.renderStyle = window.innerWidth >= 1200 ? 'focused' : 'view';
+        $rapidoc.renderStyle = window.innerWidth >= 1200 ? desktopLayout : mobileLayout;
       }
 
       let trottledUpdateLayout = throttle(updateLayout, 250);
 
-      window.addEventListener('resize', trottledUpdateLayout);
-      updateLayout();
+      if (isResponsive) {
+        window.addEventListener('resize', trottledUpdateLayout);
+        updateLayout();
+      } else if (isDesktop) {
+        $rapidoc.renderStyle = desktopLayout;
+      } else {
+        $rapidoc.renderStyle = mobileLayout;
+      }
     </script>
   </body>
 </html>

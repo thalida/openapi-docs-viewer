@@ -25,8 +25,31 @@
     <div id="redoc"></div>
     <script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"></script>
     <script>
+      const isResponsive = "{{ layout }}" === "responsive";
+      const isDesktop = "{{ layout }}" === "desktop";
+      const isMobile = "{{ layout }}" === "mobile";
+
+      let breakpoints = {
+        small: "50rem",
+        medium: "85rem",
+        large: "105rem",
+      };
+
+      if (isDesktop) {
+        breakpoints = {
+          large: "105rem",
+        };
+      } else if (isMobile) {
+        breakpoints = {
+          small: "105rem",
+        };
+      }
+
+      const lightTheme = { breakpoints }
+
       // SOURCE: https://github.com/dilanx/redark/blob/main/redark.js
-      const redark = {
+      const darkTheme = {
+        breakpoints,
         codeBlock: {
           backgroundColor: '#a1a1aa',
         },
@@ -146,7 +169,7 @@
       Redoc.init(
         "{{ url }}",
         {
-          theme: "{{ theme }}" === "dark" ? redark : undefined,
+          theme: "{{ theme }}" === "dark" ? darkTheme : lightTheme,
         },
         document.getElementById('redoc')
       );

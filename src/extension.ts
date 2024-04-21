@@ -21,7 +21,11 @@ export function activate(context: vscode.ExtensionContext) {
 	}));
 
 	context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(e => {
-		if (e.affectsConfiguration("openapi-docs-viewer.defaultRenderer") || e.affectsConfiguration("openapi-docs-viewer.defaultTheme")) {
+		if (
+			e.affectsConfiguration("openapi-docs-viewer.defaultRenderer")
+			|| e.affectsConfiguration("openapi-docs-viewer.defaultTheme")
+			|| e.affectsConfiguration("openapi-docs-viewer.defaultLayout")
+		) {
 			docsViewerProvider.restoreState();
 			docsViewerProvider.renderWebview();
 		}

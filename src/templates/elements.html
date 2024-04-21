@@ -40,6 +40,13 @@
       />
     </div>
     <script>
+      const isResponsive = "{{ layout }}" === "responsive";
+      const isDesktop = "{{ layout }}" === "desktop";
+      const isMobile = "{{ layout }}" === "mobile";
+
+      const desktopLayout = "sidebar";
+      const mobileLayout = "stacked";
+
       const $elements = document.querySelector('#elements');
 
       function throttle(fn, delay) {
@@ -55,13 +62,19 @@
       }
 
       function updateLayout() {
-        $elements.layout = window.innerWidth >= 1200 ? 'sidebar' : 'stacked';
+        $elements.layout = window.innerWidth >= 1200 ? desktopLayout : mobileLayout;
       }
 
       let trottledUpdateLayout = throttle(updateLayout, 250);
 
-      window.addEventListener('resize', trottledUpdateLayout);
-      updateLayout();
+      if (isResponsive) {
+        window.addEventListener('resize', trottledUpdateLayout);
+        updateLayout();
+      } else if (isDesktop) {
+        $elements.layout = desktopLayout;
+      } else {
+        $elements.layout = mobileLayout;
+      }
     </script>
   </body>
 </html>

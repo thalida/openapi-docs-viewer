@@ -68,6 +68,9 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
   private defaultTheme: "system" | "light" | "dark" = "system";
   private selectedTheme: "system" | "light" | "dark" = this.defaultTheme;
 
+  private defaultLayout: "responsive" | "mobile" | "desktop" = "responsive";
+  private selectedLayout: "responsive" | "mobile" | "desktop" = this.defaultLayout;
+
   private readonly defaultSchemaUrl = "https://petstore.swagger.io/v2/swagger.json";
   private schemaUrl = this.defaultSchemaUrl;
 
@@ -94,6 +97,13 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
       this.selectedTheme = this.defaultTheme;
     }
 
+    const configuredDefaultLayout = configuration.get<string>("openapi-docs-viewer.defaultLayout");
+    if (configuredDefaultLayout) {
+      this.selectedLayout = configuredDefaultLayout as "responsive" | "mobile" | "desktop" || this.defaultLayout;
+    } else {
+      this.selectedLayout = this.defaultLayout;
+    }
+
     this.schemaUrl = this.memento.get("schemaUrl", this.defaultSchemaUrl);
   }
 
@@ -109,7 +119,7 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
     this.renderWebview();
   }
 
-  async renderWebview(overrides?: { renderer?: IRender, theme?: "system" | "light" | "dark" }) {
+  async renderWebview(overrides?: { renderer?: IRender, theme?: "system" | "light" | "dark", layout?: "responsive" | "mobile" | "desktop" }) {
     if (!this.webviewView) {
       return;
     }
@@ -117,7 +127,7 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
     this.webviewView.webview.html = await this.getWebviewHTML(overrides);
   }
 
-  private async getWebviewHTML(overrides?: { renderer?: IRender, theme?: "system" | "light" | "dark" }) {
+  private async getWebviewHTML(overrides?: { renderer?: IRender, theme?: "system" | "light" | "dark", layout?: "responsive" | "mobile" | "desktop" }) {
     if (!this.webviewView) {
       return "";
     }
@@ -133,11 +143,14 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
       (selectedTheme === "system" && darkThemes.includes(vscode.window.activeColorTheme.kind))
     );
 
+    const selectedLayout = overrides?.layout || this.selectedLayout;
+
     const engine = new Liquid();
     return await engine.parseAndRender(
       templateStr,
       {
         url: this.schemaUrl,
+        layout: selectedLayout,
         theme: isDarkTheme ? "dark" : "light",
         isSystemTheme: selectedTheme === "system",
       }
@@ -170,6 +183,13 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
         detail: "Updates Workspace Setting: openapi-docs-viewer.defaultTheme",
         description: `Currently: ${this.selectedTheme}`,
         action: this.showPickTheme.bind(this)
+      },
+      {
+        key: "schemaLayout",
+        label: "Select Layout",
+        detail: "Updates Workspace Setting: openapi-docs-viewer.defaultLayout",
+        description: `Currently: ${this.selectedLayout}`,
+        action: this.showPickLayout.bind(this)
       }
     ];
 		const quickPick = vscode.window.createQuickPick();
@@ -302,6 +322,62 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
     if (result) {
       this.selectedTheme = result.key as "system" | "light" | "dark";
       await vscode.workspace.getConfiguration().update("openapi-docs-viewer.defaultTheme", this.selectedTheme, vscode.ConfigurationTarget.Workspace);
+    }
+
+    this.renderWebview();
+  }
+
+  private async showPickLayout() {
+    const self = this;
+    let items = [
+      {
+        key: "responsive",
+        label: "Responsive",
+        description: "Responsive layout",
+        detail: "Responsive layout",
+      },
+      {
+        key: "mobile",
+        label: "Mobile",
+        description: "Mobile layout",
+        detail: "Mobile layout",
+      },
+      {
+        key: "desktop",
+        label: "Desktop",
+        description: "Desktop layout",
+        detail: "Desktop layout",
+      }
+    ].map((layout) => {
+      const item = new SettingsItem(layout.key, layout.label, layout.description, layout.detail);
+      const isPicked = layout.key === this.selectedLayout;
+      item.picked = isPicked;
+      item.iconPath = isPicked ? new vscode.ThemeIcon("check") : undefined;
+      return item;
+    });
+    items = items.sort((a, b) => {
+      if (a.picked) {
+        return -1;
+      }
+      if (b.picked) {
+        return 1;
+      }
+      return 0;
+    });
+
+    const result = await vscode.window.showQuickPick(items, {
+      title: "Select Layout",
+      placeHolder: "Select a layout (Up/Down to preview, Enter to select)",
+      onDidSelectItem(item) {
+        self.renderWebview({
+          layout: (item as SettingsItem).key as "responsive" | "mobile" | "desktop",
+        });
+      }
+    });
+
+    if (result) {
+      this.selectedLayout = result.key as "responsive" | "mobile" | "desktop";
+      await vscode.workspace.getConfiguration().update("openapi-docs-viewer.defaultLayout", this.selectedLayout, vscode.ConfigurationTarget.Workspace);
     }
 
     this.renderWebview();
