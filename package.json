@@ -61,7 +61,7 @@
     "commands": [
       {
         "command": "openapi-docs-viewer.configiure",
-        "title": "Configure",
+        "title": "OpenAPI Docs Viewer: Configure",
         "icon": "$(gear)"
       }
     ]
