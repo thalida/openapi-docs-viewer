@@ -9,7 +9,7 @@
 
 Enter any OpenAPI schema URL and view the documentation in a VSCode tab.
 
-### Supported Themes
+### Supported Renderers
 
 <details>
   <summary>Elements (default)</summary>
@@ -48,9 +48,13 @@ Enter any OpenAPI schema URL and view the documentation in a VSCode tab.
   ![swagger Light Theme: Large](docs/images/theme-swagger-light-large.png)
 </details>
 
+### Dark Mode Support
+
+By default, the extension will use the system theme. System theme adopts the color scheme of the VSCode theme. If you want to override the system theme, you can set the `openapi-docs-viewer.defaultTheme` setting to `dark` or `light`.
+
 ## Extension Settings
 
 This extension contributes the following settings:
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.defaultTheme`: Set the default theme for the OpenAPI viewer, default is `elements`.
+* `openapi-docs-viewer.defaultRenderer`: Set the default theme for the OpenAPI viewer, default is `elements`.
+* `openapi-docs-viewer.defaultTheme`: Set the default color scheme, default is `system`.
