@@ -5,7 +5,7 @@
 
 <br /><br />
 
-![Overview](docs/images/overview.gif)
+![Overview](media/screenshots/overview.gif)
 
 ## Features
 
@@ -28,13 +28,13 @@ Enter any OpenAPI schema URL and view the documentation in a VSCode tab. You can
     </tr>
     <tr>
       <td>Dark</td>
-      <td><img src="docs/images/theme-elements-dark-small.png" alt="Elements Dark Theme: Small" width="300"/></td>
-      <td><img src="docs/images/theme-elements-dark-large.png" alt="Elements Dark Theme: Large" width="600"/></td>
+      <td><img src="media/screenshots/theme-elements-dark-small.png" alt="Elements Dark Theme: Small" width="300"/></td>
+      <td><img src="media/screenshots/theme-elements-dark-large.png" alt="Elements Dark Theme: Large" width="600"/></td>
     </tr>
     <tr>
       <td>Light</td>
-      <td><img src="docs/images/theme-elements-light-small.png" alt="Elements Light Theme: Small" width="300"/></td>
-      <td><img src="docs/images/theme-elements-light-large.png" alt="Elements Light Theme: Large" width="600"/></td>
+      <td><img src="media/screenshots/theme-elements-light-small.png" alt="Elements Light Theme: Small" width="300"/></td>
+      <td><img src="media/screenshots/theme-elements-light-large.png" alt="Elements Light Theme: Large" width="600"/></td>
     </tr>
   </table>
 </details>
@@ -53,13 +53,13 @@ Enter any OpenAPI schema URL and view the documentation in a VSCode tab. You can
     </tr>
     <tr>
       <td>Dark</td>
-      <td><img src="docs/images/theme-rapidoc-dark-small.png" alt="RapiDoc Dark Theme: Small" width="300"/></td>
-      <td><img src="docs/images/theme-rapidoc-dark-large.png" alt="RapiDoc Dark Theme: Large" width="600"/></td>
+      <td><img src="media/screenshots/theme-rapidoc-dark-small.png" alt="RapiDoc Dark Theme: Small" width="300"/></td>
+      <td><img src="media/screenshots/theme-rapidoc-dark-large.png" alt="RapiDoc Dark Theme: Large" width="600"/></td>
     </tr>
     <tr>
       <td>Light</td>
-      <td><img src="docs/images/theme-rapidoc-light-small.png" alt="RapiDoc Light Theme: Small" width="300"/></td>
-      <td><img src="docs/images/theme-rapidoc-light-large.png" alt="RapiDoc Light Theme: Large" width="600"/></td>
+      <td><img src="media/screenshots/theme-rapidoc-light-small.png" alt="RapiDoc Light Theme: Small" width="300"/></td>
+      <td><img src="media/screenshots/theme-rapidoc-light-large.png" alt="RapiDoc Light Theme: Large" width="600"/></td>
     </tr>
   </table>
 </details>
@@ -78,13 +78,13 @@ Enter any OpenAPI schema URL and view the documentation in a VSCode tab. You can
     </tr>
     <tr>
       <td>Dark</td>
-      <td><img src="docs/images/theme-redoc-dark-small.png" alt="Redoc Dark Theme: Small" width="300"/></td>
-      <td><img src="docs/images/theme-redoc-dark-large.png" alt="Redoc Dark Theme: Large" width="600"/></td>
+      <td><img src="media/screenshots/theme-redoc-dark-small.png" alt="Redoc Dark Theme: Small" width="300"/></td>
+      <td><img src="media/screenshots/theme-redoc-dark-large.png" alt="Redoc Dark Theme: Large" width="600"/></td>
     </tr>
     <tr>
       <td>Light</td>
-      <td><img src="docs/images/theme-redoc-light-small.png" alt="Redoc Light Theme: Small" width="300"/></td>
-      <td><img src="docs/images/theme-redoc-light-large.png" alt="Redoc Light Theme: Large" width="600"/></td>
+      <td><img src="media/screenshots/theme-redoc-light-small.png" alt="Redoc Light Theme: Small" width="300"/></td>
+      <td><img src="media/screenshots/theme-redoc-light-large.png" alt="Redoc Light Theme: Large" width="600"/></td>
     </tr>
   </table>
 </details>
@@ -103,13 +103,13 @@ Enter any OpenAPI schema URL and view the documentation in a VSCode tab. You can
     </tr>
     <tr>
       <td>Dark</td>
-      <td><img src="docs/images/theme-swagger-dark-small.png" alt="Swagger Dark Theme: Small" width="300"/></td>
-      <td><img src="docs/images/theme-swagger-dark-large.png" alt="Swagger Dark Theme: Large" width="600"/></td>
+      <td><img src="media/screenshots/theme-swagger-dark-small.png" alt="Swagger Dark Theme: Small" width="300"/></td>
+      <td><img src="media/screenshots/theme-swagger-dark-large.png" alt="Swagger Dark Theme: Large" width="600"/></td>
     </tr>
     <tr>
       <td>Light</td>
-      <td><img src="docs/images/theme-swagger-light-small.png" alt="Swagger Light Theme: Small" width="300"/></td>
-      <td><img src="docs/images/theme-swagger-light-large.png" alt="Swagger Light Theme: Large" width="600"/></td>
+      <td><img src="media/screenshots/theme-swagger-light-small.png" alt="Swagger Light Theme: Small" width="300"/></td>
+      <td><img src="media/screenshots/theme-swagger-light-large.png" alt="Swagger Light Theme: Large" width="600"/></td>
     </tr>
   </table>
 </details>
