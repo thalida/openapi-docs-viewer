@@ -1,8 +1,16 @@
 {
   "name": "openapi-docs-viewer",
   "displayName": "OpenAPI Docs Viewer",
-  "description": "",
-  "version": "0.0.1",
+  "description": "Display interactive OpenAPI schema documentation in VSCode",
+  "author": {
+    "name": "Thalida Noel",
+    "email": "hello@thalida.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thalida/openapi-docs-viewer"
+  },
+  "version": "1.0.0",
   "engines": {
     "vscode": "^1.87.2"
   },
@@ -12,6 +20,17 @@
 	"activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "OpenAPI Docs Viewer",
+      "properties": {
+        "openapi-docs-viewer.defaultTheme": {
+          "type": "string",
+          "default": "elements",
+          "description": "URL to the OpenAPI schema"
+        }
+      }
+    },
     "viewsContainers": {
       "activitybar": [
         {

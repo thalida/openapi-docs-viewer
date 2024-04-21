@@ -10,6 +10,16 @@
       [data-theme='dark'] .elements-container :is(.token.string, .token.function, .token.property) {
         color: var(--ifm-color-primary) !important;
       }
+      .elements-container {
+        display: block;
+        height: 100vh;
+      }
+
+      @media screen and (min-width: 1200px) {
+        .elements-container {
+          background-color: var(--color-canvas);
+        }
+      }
     </style>
   </head>
   <body>

@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import * as fs from "fs";
 import { Liquid } from "liquidjs";
 
-interface IDocFramework {
+interface IRender {
   key: string;
   label: string;
   url: string;
@@ -25,7 +25,7 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
 
   private memento: vscode.Memento;
 
-  private readonly supportedDocFrameworks: IDocFramework[] = [
+  private readonly supportedRenderers: IRender[] = [
     {
       "key": "elements",
       "label": "Stoplight Elements",
@@ -34,11 +34,11 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
       "template": "elements.html",
     },
     {
-      "key": "swagger",
-      "label": "Swagger UI",
-      "url": "https://github.com/swagger-api/swagger-ui",
-      "description": "Swagger UI is a collection of HTML, JavaScript, and CSS assets that dynamically generate beautiful documentation from a Swagger-compliant API.",
-      "template": "swagger.html",
+      "key": "rapidoc",
+      "label": "RapiDoc",
+      "url": "https://github.com/rapi-doc/RapiDoc",
+      "description": "Custom Element for Open-API spec viewing",
+      "template": "rapidoc.html",
     },
     {
       "key": "redoc",
@@ -48,15 +48,15 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
       "template": "redoc.html",
     },
     {
-      "key": "rapidoc",
-      "label": "RapiDoc",
-      "url": "https://github.com/rapi-doc/RapiDoc",
-      "description": "Custom Element for Open-API spec viewing",
-      "template": "rapidoc.html",
+      "key": "swagger",
+      "label": "Swagger UI",
+      "url": "https://github.com/swagger-api/swagger-ui",
+      "description": "Swagger UI is a collection of HTML, JavaScript, and CSS assets that dynamically generate beautiful documentation from a Swagger-compliant API.",
+      "template": "swagger.html",
     },
   ];
-  private readonly defaultDocFramework: IDocFramework = this.supportedDocFrameworks[0];
-  private selectedDocFramework: IDocFramework | undefined = this.defaultDocFramework;
+  private readonly defaultRenderer: IRender = this.supportedRenderers[0];
+  private selectedRenderer: IRender | undefined = this.defaultRenderer;
 
   private readonly defaultSchemaUrl = "https://petstore.swagger.io/v2/swagger.json";
   private schemaUrl = this.defaultSchemaUrl;
@@ -69,13 +69,13 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
 
   restoreState() {
     this.schemaUrl = this.memento.get("schemaUrl", this.defaultSchemaUrl);
-    const selectedDocFrameworkKey = this.memento.get("selectedDocFrameworkKey", this.defaultDocFramework.key);
-    this.selectedDocFramework = this.supportedDocFrameworks.find(framework => framework.key === selectedDocFrameworkKey);
+    const selectedRendererKey = this.memento.get("selectedRendererKey", this.defaultRenderer.key);
+    this.selectedRenderer = this.supportedRenderers.find(renderer => renderer.key === selectedRendererKey);
   }
 
   saveState() {
     this.memento.update("schemaUrl", this.schemaUrl);
-    this.memento.update("selectedDocFrameworkKey", this.selectedDocFramework?.key);
+    this.memento.update("selectedRendererKey", this.selectedRenderer?.key);
   }
 
   resolveWebviewView(
@@ -90,25 +90,25 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
     this.renderWebview();
   }
 
-  async renderWebview(isPreviewMode = false, previewFramework?: IDocFramework) {
+  async renderWebview(isPreviewMode = false, previewRenderer?: IRender) {
     if (!this.webviewView) {
       return;
     }
 
-    this.webviewView.webview.html = await this.getWebviewHTML(previewFramework);
+    this.webviewView.webview.html = await this.getWebviewHTML(previewRenderer);
 
     if (!isPreviewMode) {
       this.saveState();
     }
   }
 
-  private async getWebviewHTML(previewFramework?: IDocFramework) {
+  private async getWebviewHTML(previewRenderer?: IRender) {
     if (!this.webviewView) {
       return "";
     }
 
-    const selectedFramework = previewFramework || this.selectedDocFramework || this.defaultDocFramework;
-    const templatePath = vscode.Uri.joinPath(this.extensionContext.extensionUri, "src", "templates", selectedFramework.template);
+    const selectedRenderer = previewRenderer || this.selectedRenderer || this.defaultRenderer;
+    const templatePath = vscode.Uri.joinPath(this.extensionContext.extensionUri, "src", "templates", selectedRenderer.template);
     const templateStr = fs.readFileSync(templatePath.fsPath, "utf-8");
 
     const darkThemes = [ vscode.ColorThemeKind.Dark, vscode.ColorThemeKind.HighContrast ];
@@ -128,17 +128,17 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
     const options: IQuickPickOption[] = [
       {
         key: "schemaUrl",
-        label: "Schema URL",
+        label: "Set Schema URL",
         detail: "Set the URL of the OpenAPI schema",
         description: `Currently: ${this.schemaUrl}`,
         action: this.showPickSchemaUrl.bind(this)
       },
       {
-        key: "docFramework",
-        label: "Display Framework",
-        detail: "Select a framework to render OpenAPI docs",
-        description: `Currently: ${this.selectedDocFramework?.label || this.defaultDocFramework.label}`,
-        action: this.showPickDocFramework.bind(this)
+        key: "schemaRenderer",
+        label: "Select Schema Renderer",
+        detail: "Select an OpenAPI schema renderer",
+        description: `Currently: ${this.selectedRenderer?.label || this.defaultRenderer.label}`,
+        action: this.showPickRenderer.bind(this)
       }
     ];
 		const quickPick = vscode.window.createQuickPick();
@@ -155,11 +155,11 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
 		quickPick.show();
   }
 
-  private async showPickDocFramework() {
+  private async showPickRenderer() {
     const self = this;
-    let items = this.supportedDocFrameworks.map((framework) => {
-      const item = new SettingsItem(framework.key, framework.label, framework.url, framework.description);
-      const isPicked = framework.key === this.selectedDocFramework?.key;
+    let items = this.supportedRenderers.map((renderer) => {
+      const item = new SettingsItem(renderer.key, renderer.label, renderer.url, renderer.description);
+      const isPicked = renderer.key === this.selectedRenderer?.key;
       item.picked = isPicked;
       item.iconPath = isPicked ? new vscode.ThemeIcon("check") : undefined;
       return item;
@@ -175,16 +175,16 @@ export class DocsViewerProvider implements vscode.WebviewViewProvider {
     });
 
     const result = await vscode.window.showQuickPick(items, {
-      title: "Select Display Framework",
-      placeHolder: "Select a framework to render OpenAPI docs (Up/Down to preview, Enter to select)",
+      title: "Select Schema Renderer",
+      placeHolder: "Select an OpenAPI schema renderer (Up/Down to preview, Enter to select)",
       onDidSelectItem(item) {
-        const framework = self.supportedDocFrameworks.find(f => f.key === (item as SettingsItem).key);
-        self.renderWebview(true, framework);
+        const renderer = self.supportedRenderers.find(f => f.key === (item as SettingsItem).key);
+        self.renderWebview(true, renderer);
       }
     });
 
     if (result) {
-      this.selectedDocFramework = this.supportedDocFrameworks.find(framework => framework.key === result.key);
+      this.selectedRenderer = this.supportedRenderers.find(renderer => renderer.key === result.key);
     }
 
     this.renderWebview();

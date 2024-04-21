@@ -1,71 +1,56 @@
-# openapi-docs-viewer README
+<div align="center">
+  <h1> VSCode Extension: OpenAPI Docs Viewer</h1>
+  <p>Display interactive OpenAPI schema documentation in VSCode</p>
+</div>
 
-This is the README for your extension "openapi-docs-viewer". After writing up a brief description, we recommend including the following sections.
+![Overview](docs/images/overview.gif)
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+Enter any OpenAPI schema URL and view the documentation in a VSCode tab.
 
-For example if there is an image subfolder under your extension project workspace:
+### Supported Themes
 
-\!\[feature X\]\(images/feature-x.png\)
+<details>
+  <summary>Elements (default)</summary>
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+  **Preview**
+  ![Elements Dark Theme: Small](docs/images/theme-elements-dark-small.png)
+  ![Elements Dark Theme: Large](docs/images/theme-elements-dark-large.png)
+  ![Elements Light Theme: Small](docs/images/theme-elements-light-small.png)
+  ![Elements Light Theme: Large](docs/images/theme-elements-light-large.png)
+</details>
+<details>
+  <summary>Rapidoc</summary>
 
-## Requirements
+  **Preview**
+  ![rapidoc Dark Theme: Small](docs/images/theme-rapidoc-dark-small.png)
+  ![rapidoc Dark Theme: Large](docs/images/theme-rapidoc-dark-large.png)
+  ![rapidoc Light Theme: Small](docs/images/theme-rapidoc-light-small.png)
+  ![rapidoc Light Theme: Large](docs/images/theme-rapidoc-light-large.png)
+</details>
+<details>
+  <summary>Redoc</summary>
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+  **Preview**
+  ![redoc Dark Theme: Small](docs/images/theme-redoc-dark-small.png)
+  ![redoc Dark Theme: Large](docs/images/theme-redoc-dark-large.png)
+  ![redoc Light Theme: Small](docs/images/theme-redoc-light-small.png)
+  ![redoc Light Theme: Large](docs/images/theme-redoc-light-large.png)
+</details>
+<details>
+  <summary>Swagger</summary>
+
+  **Preview**
+  ![swagger Dark Theme: Small](docs/images/theme-swagger-dark-small.png)
+  ![swagger Dark Theme: Large](docs/images/theme-swagger-dark-large.png)
+  ![swagger Light Theme: Small](docs/images/theme-swagger-light-small.png)
+  ![swagger Light Theme: Large](docs/images/theme-swagger-light-large.png)
+</details>
 
 ## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
 
 This extension contributes the following settings:
 
 * `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+* `myExtension.defaultTheme`: Set the default theme for the OpenAPI viewer, default is `elements`.
