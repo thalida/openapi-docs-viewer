@@ -24,9 +24,38 @@
       "type": "object",
       "title": "OpenAPI Docs Viewer",
       "properties": {
-        "openapi-docs-viewer.defaultTheme": {
+        "openapi-docs-viewer.theme": {
+          "type": "string",
+          "default": "system",
+          "enum": ["system", "light", "dark"],
+          "enumItemLabels": [
+            "System",
+            "Light",
+            "Dark"
+          ],
+          "enumDescriptions": [
+            "Dynamic based on current VSCode theme",
+            "Light theme",
+            "Dark theme"
+          ],
+          "description": "Set color scheme for the OpenAPI Docs Viewer (if applicable)"
+        },
+        "openapi-docs-viewer.defaultRenderer": {
           "type": "string",
           "default": "elements",
+          "enum": ["elements", "rapidoc", "redoc", "swagger"],
+          "enumItemLabels": [
+            "Elements",
+            "RapiDoc",
+            "Redoc",
+            "Swagger"
+          ],
+          "enumDescriptions": [
+            "https://github.com/stoplightio/elements",
+            "https://github.com/rapi-doc/RapiDoc",
+            "https://github.com/Redocly/redoc",
+            "https://github.com/swagger-api/swagger-ui"
+          ],
           "description": "URL to the OpenAPI schema"
         }
       }

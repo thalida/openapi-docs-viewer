@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="{{ theme }}">
+<html lang="en" data-theme="{{ theme }}" data-is-system-theme="{{ isSystemTheme }}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,23 +7,31 @@
     <script src="https://unpkg.com/@stoplight/elements/web-components.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/@stoplight/elements/styles.min.css">
     <style>
-      [data-theme='dark'] .elements-container :is(.token.string, .token.function, .token.property) {
+      [data-theme='dark'] #elements-container :is(.token.string, .token.function, .token.property) {
         color: var(--ifm-color-primary) !important;
       }
-      .elements-container {
+      #elements-container {
         display: block;
         height: 100vh;
+        padding: 1rem;
       }
 
       @media screen and (min-width: 1200px) {
-        .elements-container {
+        #elements-container {
           background-color: var(--color-canvas);
         }
+      }
+
+      [data-is-system-theme='false'][data-theme='light'] #elements-container {
+        background-color: var(--color-canvas);
+      }
+      [data-is-system-theme='false'][data-theme='dark'] #elements-container {
+        background-color: var(--color-canvas);
       }
     </style>
   </head>
   <body>
-    <div class="elements-container">
+    <div id="elements-container">
       <elements-api
         id="elements"
         apiDescriptionUrl="{{ url }}"
